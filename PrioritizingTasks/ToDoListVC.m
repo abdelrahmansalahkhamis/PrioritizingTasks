@@ -23,9 +23,17 @@ NSMutableArray *descriptions;
 NSMutableArray *titles;
 
 NSMutableArray *mainArr;
+NSMutableArray *filteredArr;
+
+//bool inSearchMode; {
+//        return searchController.isActive && !searchController.searchBar.text!.isEmpty
+//    }
+
+bool inSearchMode;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:nil];
     self.navigationItem.titleView = self.searchController.searchBar;
@@ -38,14 +46,18 @@ NSMutableArray *mainArr;
     self.searchController.hidesNavigationBarDuringPresentation = NO;
     [self configureToolBar];
     [self configeTableView];
+//    inSearchMode = [self.searchController isActive] && !self.searchController.searchBar.text == "";
+    inSearchMode = false;
 }
 
 -(void) configeTableView{
+    inSearchMode = false;
     mainArr = [NSMutableArray new];
+    //filteredArr = [NSMutableArray new];
     //names = [[NSMutableArray alloc] initWithObjects:@"Mohamed", @"Ahmed", @"Ali","Mohamed", @"Ahmed", @"Ali", "Mohamed", @"Ahmed", @"Ali", nil];
     names = [NSMutableArray arrayWithObjects:@"Mohamed", @"Ahmed", @"Ali", nil];
-    titles = [NSMutableArray arrayWithObjects:@"titles", @"titles", @"titles", @"titles", @"titles", @"titles", @"titles", @"titles", @"titles",nil];
-    descriptions = [NSMutableArray arrayWithObjects:@"descriptions", @"descriptions", @"descriptions", @"descriptions", @"descriptions", @"descriptions",nil];
+    titles = [NSMutableArray arrayWithObjects:@"Toyota", @"Nissan", @"Jeep", @"GMC", @"Dodge", @"Audi", @"Suzuki", @"Isuzo", @"Kia", @"Honda", @"Hyondai",nil];
+    descriptions = [[NSMutableArray alloc] initWithObjects:@"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234",@"1234", nil];
 //    titles = [NSMutableArray arrayWithObjects:@"Mercedes", @"Toyota", @"Nissan", "Jeep", @"GMC", @"Dodge","Audi", @"Suzuki", @"Isuzo","Kia", @"Honda", @"Hyondai",nil];
     
     //descriptions = [[NSMutableArray alloc] initWithObjects:@"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234",@"1234", nil];
@@ -95,14 +107,6 @@ NSMutableArray *mainArr;
     [label3 setBackgroundColor:[UIColor clearColor]];
     [button3 addSubview:label3];
     UIBarButtonItem *descriptionsBtn = [[UIBarButtonItem alloc] initWithCustomView:button3];
-
-//    UIBarButtonItem *namesBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"folder.fill"] style:nil target:self action:@selector(namesBtnTapped:)];
-//
-//    UIBarButtonItem *titlesBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"trash.fill"] style:nil target:self action:@selector(titlesBtnTapped:)];
-//
-//    UIBarButtonItem *descriptionsBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage
-//                                                                               systemImageNamed:@"cloud.snow.fill"] style:nil target:self action:@selector(descriptionsBtnTapped:)];
-   
     
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
 
@@ -160,50 +164,37 @@ NSMutableArray *mainArr;
 }
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {
-    printf("updateSearchResultsForSearchController\n");
-//     update the filtered array based on the search text
-//    NSString *searchText = searchController.searchBar.text;
-//
-//    id <NSFetchedResultsSectionInfo> sectionInfo = [_fetchedResultsController.sections objectAtIndex:0];
-//
-//    if (searchText == nil) {
-//
-//        // If empty the search results are the same as the original data
-//        self.searchResults = [sectionInfo.objects mutableCopy];
-//
-//    } else {
-//
-//        NSMutableArray *searchResults = [[NSMutableArray alloc] init];
-//
-//        NSArray *allObjects = sectionInfo.objects;
-//
-//        for (PhoneNumber *phoneMO in allObjects) {
-//
-//            if ([phoneMO.number containsString:searchText] || [[phoneMO.closrr_id filteredId] containsString:searchText] || [[phoneMO.contact.fullname lowercaseString] containsString:[searchText lowercaseString]]) {
-//                [searchResults addObject:phoneMO];
-//            }
-//        }
-//
-//        self.searchResults = searchResults;
-//
-//    }
-//
-//    // hand over the filtered results to our search results table
-//    CLCustomerResultrowsItemsCellController *tableController = (CLCustomerResultrowsItemsCellController *)self.searchController.searchResultsController;
-//    tableController.filteredContacts = self.searchResults;
-//    [tableController.tableView reloadData];
+
+    NSLog(@"updateSearchResultsForSearchController");
+    NSString *searchString = [self.searchController.searchBar text];
+    NSPredicate *preicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS[c] %@", searchString];
+    if (filteredArr != nil) {
+        [filteredArr removeAllObjects];
+    }
+    //过滤数据
+    filteredArr = [NSMutableArray arrayWithArray:[mainArr filteredArrayUsingPredicate:preicate]];
+    //刷新表格
+    [self.tableView reloadData];
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [mainArr count];
+    if(self.searchController.active){
+        return [filteredArr count];
+    }else{
+        return [mainArr count];
+    }
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     //cell.textLabel.text = @"text";
-    cell.textLabel.text = mainArr[indexPath.row];
-    //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    if(self.searchController.active){
+        cell.textLabel.text = filteredArr[indexPath.row];
+    }else{
+        cell.textLabel.text = mainArr[indexPath.row];
+    }
     return cell;
 }
 
