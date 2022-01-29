@@ -6,11 +6,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Task.h"
+#import "myProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DetailsVC : UIViewController
-
+@property Task* taskObj;
+@property id<myProtocol> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

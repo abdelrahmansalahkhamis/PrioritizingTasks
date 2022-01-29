@@ -20,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A43910AD27A5D14300086AA4 /* myProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = myProtocol.h; sourceTree = "<group>"; };
 		A45763AB27A2CD3000A7D05E /* PrioritizingTasks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrioritizingTasks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A45763AE27A2CD3000A7D05E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A45763AF27A2CD3000A7D05E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -89,6 +90,7 @@
 				A45763CF27A3287000A7D05E /* DetailsVC.m */,
 				A45763D127A3297E00A7D05E /* AddNewVC.h */,
 				A45763D227A3297E00A7D05E /* AddNewVC.m */,
+				A43910AD27A5D14300086AA4 /* myProtocol.h */,
 			);
 			path = PrioritizingTasks;
 			sourceTree = "<group>";

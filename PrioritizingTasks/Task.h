@@ -11,10 +11,17 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Task : NSObject
-@property NSString* name;
-@property NSString* description;
-@property enum Priorities preirity;
-@property NSString* dateOfCreation;
+
+typedef enum Priorities: NSInteger{
+    high, med, low
+    
+}Priorities;
+@property NSString* taskName;
+@property NSString* taskDescription;
+@property Priorities taskPreirity;
+@property NSString* taskdateOfCreation;
+
+
 @end
 
 

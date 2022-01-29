@@ -6,11 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "myProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AddNewVC : UIViewController
-
+@interface AddNewVC : UIViewController<UIPickerViewDelegate>
+@property id<myProtocol> delegate;
 @end
 
 NS_ASSUME_NONNULL_END
