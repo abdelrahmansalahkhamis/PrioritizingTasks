@@ -8,5 +8,8 @@
 #ifndef Priorities_h
 #define Priorities_h
 
-enum Priorities {high, med, low};
+//typedef enum Priorities: NSInteger{
+//    high, med, low
+//
+//}Priorities;
 #endif /* Priorities_h */
