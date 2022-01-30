@@ -10,16 +10,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Task : NSObject
+@interface Task : NSObject<NSCoding>
 
-typedef enum Priorities: NSInteger{
-    high, med, low
-    
-}Priorities;
-@property NSString* taskName;
-@property NSString* taskDescription;
-@property Priorities taskPreirity;
-@property NSString* taskdateOfCreation;
+//typedef enum Priorities{
+//    high = 0,
+//    med = 1,
+//    low = 2
+//
+//}Priorities;
+@property (strong,nonatomic)NSString* taskName;
+@property (strong,nonatomic)NSString* taskDescription;
+@property (strong,nonatomic)NSString* taskPreirity;
+@property (strong,nonatomic)NSString* taskdateOfCreation;
 
 
 @end

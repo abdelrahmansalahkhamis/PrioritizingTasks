@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A433111527A6CBF000A9A6F2 /* EditVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A433111427A6CBF000A9A6F2 /* EditVC.m */; };
 		A45763B027A2CD3000A7D05E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A45763AF27A2CD3000A7D05E /* AppDelegate.m */; };
 		A45763B327A2CD3000A7D05E /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A45763B227A2CD3000A7D05E /* SceneDelegate.m */; };
 		A45763B927A2CD3000A7D05E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A45763B727A2CD3000A7D05E /* Main.storyboard */; };
@@ -20,6 +21,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A433111127A6CA1E00A9A6F2 /* EditProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditProtocol.h; sourceTree = "<group>"; };
+		A433111327A6CBF000A9A6F2 /* EditVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditVC.h; sourceTree = "<group>"; };
+		A433111427A6CBF000A9A6F2 /* EditVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditVC.m; sourceTree = "<group>"; };
 		A43910AD27A5D14300086AA4 /* myProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = myProtocol.h; sourceTree = "<group>"; };
 		A45763AB27A2CD3000A7D05E /* PrioritizingTasks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrioritizingTasks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A45763AE27A2CD3000A7D05E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -91,6 +95,9 @@
 				A45763D127A3297E00A7D05E /* AddNewVC.h */,
 				A45763D227A3297E00A7D05E /* AddNewVC.m */,
 				A43910AD27A5D14300086AA4 /* myProtocol.h */,
+				A433111127A6CA1E00A9A6F2 /* EditProtocol.h */,
+				A433111327A6CBF000A9A6F2 /* EditVC.h */,
+				A433111427A6CBF000A9A6F2 /* EditVC.m */,
 			);
 			path = PrioritizingTasks;
 			sourceTree = "<group>";
@@ -167,6 +174,7 @@
 			files = (
 				A45763D327A3297E00A7D05E /* AddNewVC.m in Sources */,
 				A45763CC27A3264400A7D05E /* Task.m in Sources */,
+				A433111527A6CBF000A9A6F2 /* EditVC.m in Sources */,
 				A45763B027A2CD3000A7D05E /* AppDelegate.m in Sources */,
 				A45763C127A2CD3200A7D05E /* main.m in Sources */,
 				A45763D027A3287000A7D05E /* DetailsVC.m in Sources */,

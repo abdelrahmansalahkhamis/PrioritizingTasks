@@ -31,6 +31,10 @@ NSMutableArray *medPriorityArr;
 NSMutableArray *lowPriorityArr;
 NSMutableArray *filteredArr;
 
+NSMutableArray *progressArray;
+NSMutableArray *doneArray;
+NSInteger *selectedTap = 0;
+
 NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progress"];
 
 - (void)viewDidLoad {
@@ -57,44 +61,52 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
     
     self.definesPresentationContext = YES;
     [self.searchController.searchBar sizeToFit];
-    [self initTask];
+    //[self initTask];
+    [self loadCustomObject: @"tasks"];
 }
 
 -(void) initTask{
     Task *task1 = [Task new];
     task1.taskName = @"Objective c";
     task1.taskDescription = @"Interesting Language";
-    task1.taskPreirity = (Priorities)high;
+    //task1.taskPreirity = (Priorities)high;
+    task1.taskPreirity = @"High";
     task1.taskdateOfCreation = @"January 26, 2022";
     
     Task *task2 = [Task new];
     task2.taskName = @"Swift";
     task2.taskDescription = @"Interesting Language";
-    task2.taskPreirity = (Priorities)med;
+    //task2.taskPreirity = (Priorities)med;
+    task2.taskPreirity = @"High";
     task2.taskdateOfCreation = @"January 26, 2022";
     
     Task *task3 = [Task new];
     task3.taskName = @"C++";
     task3.taskDescription = @"Interesting Language";
-    task3.taskPreirity = (Priorities)high;
+//    task3.taskPreirity = (Priorities)high;
+    task3.taskPreirity = @"High";
     task3.taskdateOfCreation = @"January 26, 2022";
     
     Task *task4 = [Task new];
     task4.taskName = @"Java";
     task4.taskDescription = @"Interesting Language";
-    task4.taskPreirity = (Priorities)low;
+    //task4.taskPreirity = (Priorities)low;
+    
+    task4.taskPreirity = @"High";
     task4.taskdateOfCreation = @"January 26, 2022";
     
     Task *task5 = [Task new];
     task5.taskName = @"PHP";
     task5.taskDescription = @"Interesting Language";
-    task5.taskPreirity = (Priorities)high;
+    //task5.taskPreirity = (Priorities)high;
+    task5.taskPreirity = @"High";
     task5.taskdateOfCreation = @"January 26, 2022";
     
     Task *task6 = [Task new];
     task6.taskName = @"Paython";
     task6.taskDescription = @"Interesting Language";
-    task6.taskPreirity = (Priorities)med;
+    //task6.taskPreirity = (Priorities)med;
+    task6.taskPreirity = @"High";
     task6.taskdateOfCreation = @"January 26, 2022";
     
     [_tasks addObject:task1];
@@ -113,27 +125,14 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
     highPriorityArr = [NSMutableArray new];
     medPriorityArr = [NSMutableArray new];
     lowPriorityArr = [NSMutableArray new];
+    progressArray = [NSMutableArray new];
+    doneArray = [NSMutableArray new];
     //filteredArr = [NSMutableArray new];
     //names = [[NSMutableArray alloc] initWithObjects:@"Mohamed", @"Ahmed", @"Ali","Mohamed", @"Ahmed", @"Ali", "Mohamed", @"Ahmed", @"Ali", nil];
     names = [NSMutableArray arrayWithObjects:@"Mohamed", @"Ahmed", @"Ali", nil];
     titles = [NSMutableArray arrayWithObjects:@"Toyota", @"Nissan", @"Jeep", @"GMC", @"Dodge", @"Audi", @"Suzuki", @"Isuzo", @"Kia", @"Honda", @"Hyondai",nil];
     descriptions = [[NSMutableArray alloc] initWithObjects:@"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234", @"1234",@"1234", nil];
-//    for(Task *task in _tasks){
-//        NSLog(@"%@, \n",task);
-//        switch (task.taskPreirity) {
-//            case high:
-//                [highPriorityArr addObject:task];
-//                continue;
-//            case med:
-//                [medPriorityArr addObject:task];
-//                continue;
-//            case low:
-//                [lowPriorityArr addObject:task];
-//                continue;
-//            default:
-//                break;
-//        }
-//    }
+
     //mainArr = _tasks;
 }
 
@@ -195,14 +194,17 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
         case 1:
             //[sender setTintColor:[UIColor magentaColor]];
             mainArr = _tasks;
+            selectedTap = 0;
             break;
         case 2:
             //[sender setTintColor:[UIColor magentaColor]];
             mainArr = titles;
+            selectedTap = 1;
             break;
         case 3:
             //[sender setTintColor:[UIColor magentaColor]];
             mainArr = descriptions;
+            selectedTap = 2;
             break;
         default:
             break;
@@ -257,6 +259,21 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
         [filteredArr removeAllObjects];
     }
     //过滤数据
+    if(selectedTap == 0) {
+        for(Task *task in highPriorityArr){
+            [mainArr addObject:task];
+        }
+        for(Task *task in medPriorityArr){
+            [mainArr addObject:task];
+        }
+        for(Task *task in lowPriorityArr){
+            [mainArr addObject:task];
+        }
+    }else if(selectedTap == 1){
+        mainArr = progressArray;
+    }else{
+        mainArr = doneArray;
+    }
     filteredArr = [NSMutableArray arrayWithArray:[mainArr filteredArrayUsingPredicate:predicate]];
     //刷新表格
     [self.tableView reloadData];
@@ -287,7 +304,12 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
     if(self.searchController.active){
         return 1;
     }else{
-        return 3;
+        if (selectedTap == 0) {
+            return 3;
+        }else{
+            return 1;
+        }
+        
     }
     
 }
@@ -296,21 +318,28 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
     if(self.searchController.active){
         return [filteredArr count];
     }else{
-        //return [mainArr count];
-        switch (section) {
-            case 0:
-                return [highPriorityArr count];
-                break;
-            case 1:
-                return [medPriorityArr count];
-                break;
-            case 2:
-                return [lowPriorityArr count];
-                break;
-            default:
-                return [highPriorityArr count];
-                break;
+        if(selectedTap == 0){
+            switch (section) {
+                case 0:
+                    return [highPriorityArr count];
+                    break;
+                case 1:
+                    return [medPriorityArr count];
+                    break;
+                case 2:
+                    return [lowPriorityArr count];
+                    break;
+                default:
+                    return [highPriorityArr count];
+                    break;
+            }
+        }else if (selectedTap == 1){
+            return [progressArray count];
+        }else{
+            return [doneArray count];
         }
+        //return [mainArr count];
+        
     }
     
 }
@@ -318,19 +347,25 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if(_searchController.isActive){
         return nil;
-    }
-    switch (section) {
-        case 0:
-            return @"High Priority";
-            break;
-        case 1:
-            return @"Med Priority";
-            break;
-        case 2:
-            return @"Low Priority";
-            break;
-        default:
-            return @"High Priority";
+    }else{
+        if(selectedTap == 1 || selectedTap == 2){
+            return nil;
+        }else{
+            switch (section) {
+            case 0:
+                return @"High Priority";
+                break;
+            case 1:
+                return @"Med Priority";
+                break;
+            case 2:
+                return @"Low Priority";
+                break;
+            default:
+                return @"High Priority";
+        }
+            
+        }
     }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -354,18 +389,42 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
         
         description = [filteredArr[indexPath.row] taskDescription];
         
-        priority = [self describePriorityType: [filteredArr[indexPath.row] taskPreirity]];
+        //priority = [self describePriorityType: [filteredArr[indexPath.row] taskPreirity]];
+        
+        priority = [filteredArr[indexPath.row] taskPreirity];
         
         date = [filteredArr[indexPath.row] taskdateOfCreation];
         
-    }else{
+    }else if(selectedTap == 1){
+        name = [progressArray[indexPath.row] taskName];
+        
+        description = [progressArray[indexPath.row] taskDescription];
+        
+        //priority = [self describePriorityType: [filteredArr[indexPath.row] taskPreirity]];
+        
+        priority = [progressArray[indexPath.row] taskPreirity];
+        
+        date = [progressArray[indexPath.row] taskdateOfCreation];
+    }else if(selectedTap == 2){
+        name = [doneArray[indexPath.row] taskName];
+        
+        description = [doneArray[indexPath.row] taskDescription];
+        
+        //priority = [self describePriorityType: [filteredArr[indexPath.row] taskPreirity]];
+        
+        priority = [doneArray[indexPath.row] taskPreirity];
+        
+        date = [doneArray[indexPath.row] taskdateOfCreation];
+    }
+    else{
         switch (indexPath.section) {
             case 0:
                 name = [highPriorityArr[indexPath.row] taskName];
                 
                 description = [highPriorityArr[indexPath.row] taskDescription];
                 
-                priority = [self describePriorityType: [highPriorityArr[indexPath.row] taskPreirity]];
+                //priority = [self describePriorityType: [highPriorityArr[indexPath.row] taskPreirity]];
+                priority = [highPriorityArr[indexPath.row] taskPreirity];
                 
                 date = [highPriorityArr[indexPath.row] taskdateOfCreation];
                 break;
@@ -374,7 +433,9 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
                 
                 description = [medPriorityArr[indexPath.row] taskDescription];
                 
-                priority = [self describePriorityType: [medPriorityArr[indexPath.row] taskPreirity]];
+                //priority = [self describePriorityType: [medPriorityArr[indexPath.row] taskPreirity]];
+                
+                priority = [medPriorityArr[indexPath.row] taskPreirity];
                 
                 date = [medPriorityArr[indexPath.row] taskdateOfCreation];
                 break;
@@ -383,7 +444,9 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
                 
                 description = [lowPriorityArr[indexPath.row] taskDescription];
                 
-                priority = [self describePriorityType: [lowPriorityArr[indexPath.row] taskPreirity]];
+                //priority = [self describePriorityType: [lowPriorityArr[indexPath.row] taskPreirity]];
+                
+                priority = [lowPriorityArr[indexPath.row] taskPreirity];
                 
                 date = [lowPriorityArr[indexPath.row] taskdateOfCreation];
                 break;
@@ -398,36 +461,160 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
     return cell;
 }
 
-- (NSString*)describePriorityType:(Priorities)priorityType {
-    switch(priorityType) {
-        case high:
-            return @"High";
-        case med:
-            return @"Med";
-        case low:
-            return @"Low";
-    }
-    [NSException raise:NSInvalidArgumentException format:@"The given format type number, %ld, is not known.", priorityType];
-    return nil; // Keep the compiler happy - does not understand above line never returns!
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
 }
+//    - (void)setEditing:(BOOL)editing animated:(BOOL)animated{
+//        //automaticEditControlsDidShow = NO;
+//            [super setEditing:editing animated:animated];
+//            NSArray *addRow = [NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0],nil];
+//            if (editing) {
+//                //automaticEditControlsDidShow = YES;
+//                [self.tableView insertRowsAtIndexPaths:addRow withRowAnimation:UITableViewRowAnimationLeft];
+//            } else {
+//                [self.tableView deleteRowsAtIndexPaths:addRow withRowAnimation:UITableViewRowAnimationLeft];
+//            }
+//    }
 
+-(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Move To Progess" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+       //insert your editAction here
+        if(selectedTap != 1 && selectedTap != 2){
+            switch (indexPath.section) {
+                case 0:
+                    [progressArray addObject: highPriorityArr[indexPath.row]];
+                    [highPriorityArr removeObjectAtIndex:indexPath.row];
+                    
+                    break;
+                case 1:
+                    [progressArray addObject: medPriorityArr[indexPath.row]];
+                    [medPriorityArr removeObjectAtIndex:indexPath.row];
+                    
+                    break;
+                case 2:
+                    [progressArray addObject: lowPriorityArr[indexPath.row]];
+                    [lowPriorityArr removeObjectAtIndex:indexPath.row];
+                    
+                    break;
+                default:
+                    break;
+            }
+            NSMutableArray *sortedArray =[NSMutableArray new];
+            for(Task *task in progressArray){
+                if(task.taskPreirity == @"High"){
+                    [sortedArray addObject:task];
+                }
+            }
+            for(Task *task in progressArray){
+                if(task.taskPreirity == @"Med"){
+                    [sortedArray addObject:task];
+                }
+            }
+            for(Task *task in progressArray){
+                if(task.taskPreirity == @"Low"){
+                    [sortedArray addObject:task];
+                }
+            }
+            progressArray = sortedArray;
+        }else if (selectedTap == 1){
+            [doneArray addObject: progressArray[indexPath.row]];
+            [progressArray removeObjectAtIndex:indexPath.row];
+            
+            NSMutableArray *sortedArray =[NSMutableArray new];
+            for(Task *task in doneArray){
+                if(task.taskPreirity == @"High"){
+                    [sortedArray addObject:task];
+                }
+            }
+            for(Task *task in doneArray){
+                if(task.taskPreirity == @"Med"){
+                    [sortedArray addObject:task];
+                }
+            }
+            for(Task *task in doneArray){
+                if(task.taskPreirity == @"Low"){
+                    [sortedArray addObject:task];
+                }
+            }
+            doneArray = sortedArray;
+        }
+        
+        [tableView reloadData];
+    }];
+    editAction.backgroundColor = [UIColor blueColor];
+    
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Delete"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+       //insert your deleteAction here
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Attension" message:@"Are you sure you want to delete?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ok;
+        switch (indexPath.section) {
+            case 0:{
+                ok = [UIAlertAction actionWithTitle:@"DELETE" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                                        //button click event
+                    [highPriorityArr removeObjectAtIndex:indexPath.row];
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tasks"];
+                    [tableView reloadData];
+                                    }];
+                break;
+            }
+            case 1:{
+                ok = [UIAlertAction actionWithTitle:@"DELETE" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                                        //button click event
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tasks"];
+                    [medPriorityArr removeObjectAtIndex:indexPath.row];
+                    [tableView reloadData];
+                                    }];
+                
+                break;
+            }
+            case 2:{
+                ok = [UIAlertAction actionWithTitle:@"DELETE" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                                        //button click event
+                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tasks"];
+                    [lowPriorityArr removeObjectAtIndex:indexPath.row];
+                    [tableView reloadData];
+                                    }];
+                
+                break;
+            }
+            default:
+                break;
+        }
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:cancel];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
+    }];
+    deleteAction.backgroundColor = [UIColor redColor];
+    return @[deleteAction,editAction];
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     DetailsVC *details = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailsVC"];
     [details setDelegate:self];
-    switch (indexPath.section) {
-        case 0:
-            [details setTaskObj: highPriorityArr[indexPath.row]];
-            break;
-        case 1:
-            [details setTaskObj: medPriorityArr[indexPath.row]];
-            break;
-        case 2:
-            [details setTaskObj: lowPriorityArr[indexPath.row]];
-            break;
-        default:
-            break;
+    if(selectedTap == 0){
+        switch (indexPath.section) {
+            case 0:
+                [details setTaskObj: highPriorityArr[indexPath.row]];
+                break;
+            case 1:
+                [details setTaskObj: medPriorityArr[indexPath.row]];
+                break;
+            case 2:
+                [details setTaskObj: lowPriorityArr[indexPath.row]];
+                break;
+            default:
+                break;
+        }
+    }else if(selectedTap == 1){
+        [details setTaskObj: progressArray[indexPath.row]];
+    }else{
+        [details setTaskObj: doneArray[indexPath.row]];
     }
+    
     //[details setTaskObj: mainArr[indexPath.row]];
     [self.navigationController pushViewController:details animated:YES];
 }
@@ -439,11 +626,6 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
-//    UILabel *titleLbl = [UILabel new];
-//    titleLbl.text =
-//    UIView *view = [UIView new];
-//    view.backgroundColor = [UIColor yellowColor];
-//    return view;
     if(_searchController.isActive){
         return nil;
     }
@@ -458,20 +640,33 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
 }
 
 -(void) setNewData: (Task*) task{
-    switch (task.taskPreirity) {
-        case high:
-            [highPriorityArr addObject:task];
-            break;
-        case 1:
-            [medPriorityArr addObject:task];
-            break;
-        case 2:
-            [lowPriorityArr addObject:task];
-            break;
-        default:
-            break;
+
+    if (task.taskPreirity == @"High") {
+        [highPriorityArr addObject:task];
+    }else if (task.taskPreirity == @"Med"){
+        [medPriorityArr addObject:task];
+    }else if (task.taskPreirity == @"Low"){
+        [lowPriorityArr addObject:task];
     }
-    [mainArr addObject:task];
+    //[mainArr addObject:task];
+    //[highPriorityArr addObject:task];
     [self.tableView reloadData];
+}
+- (void)loadCustomObject:(NSString *)key {
+
+    NSData *taskData = [[NSUserDefaults standardUserDefaults] objectForKey: key];
+    Task *task = [NSKeyedUnarchiver unarchiveObjectWithData:taskData];
+    if(task != nil){
+        [highPriorityArr addObject:task];
+    }
+//
+//    if (task.taskPreirity == @"High") {
+//        [highPriorityArr addObject:task];
+//    }else if (task.taskPreirity == @"Med"){
+//        [medPriorityArr addObject:task];
+//    }else if (task.taskPreirity == @"Low"){
+//        [lowPriorityArr addObject:task];
+//    }
+    [_tableView reloadData];
 }
 @end
