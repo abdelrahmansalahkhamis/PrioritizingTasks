@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet UIButton *addNewBtn;
 
 @end
 
@@ -24,6 +25,7 @@ Task *task;
 NSArray *elements;
 NSInteger selectedPriority;
 NSString *dateString;
+NSMutableArray *arrayToSave;
 - (void)viewDidLoad {
     [super viewDidLoad];
     task = [Task new];
@@ -32,6 +34,21 @@ NSString *dateString;
     
     _pickerView.delegate = self; // Also, can be done from IB, if you're using
     _pickerView.dataSource = self;
+    _nameTextField.delegate = self;
+    [_nameTextField addTarget:self
+                    action:@selector(textFieldDidChange)
+          forControlEvents:UIControlEventEditingChanged];
+    _addNewBtn.enabled = false;
+}
+
+- (void)textFieldDidChange
+{
+    if ([self.nameTextField.text isEqualToString:@""]) {
+        [self.addNewBtn setEnabled:NO];
+    }
+    else {
+        [self.addNewBtn setEnabled:YES];
+    }
 }
 - (IBAction)datePickerChangedValue:(UIDatePicker *)sender {
 //    NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
@@ -80,31 +97,22 @@ numberOfRowsInComponent:(NSInteger)component {
 
 
 
-//- (NSString*)describePriorityType:(Priorities)priorityType {
-//    switch(priorityType) {
-//        case high:
-//            return @"High";
-//        case med:
-//            return @"Med";
-//        case low:
-//            return @"Low";
-//    }
-//    [NSException raise:NSInvalidArgumentException format:@"The given format type number, %ld, is not known.", priorityType];
-//    return nil; // Keep the compiler happy - does not understand above line never returns!
-//}
-
 - (IBAction)addNewPressed:(UIButton *)sender {
+    
     [task setTaskName:_nameTextField.text];
     [task setTaskDescription:_descriptionTextField.text];
     switch (selectedPriority) {
         case 0:
-            [task setTaskPreirity:(Priorities)high];
+            //[task setTaskPreirity:(Priorities)high];
+            [task setTaskPreirity:@"High"];
             break;
         case 1:
-            [task setTaskPreirity:(Priorities)med];
+            //[task setTaskPreirity:(Priorities)med];
+            [task setTaskPreirity:@"Med"];
             break;
         case 2:
-            [task setTaskPreirity:(Priorities)low];
+            //[task setTaskPreirity:(Priorities)low];
+            [task setTaskPreirity:@"Low"];
             break;
         default:
             
@@ -113,7 +121,15 @@ numberOfRowsInComponent:(NSInteger)component {
     }
     [task setTaskdateOfCreation: dateString];
     [_delegate setNewData: task];
+    [self saveCustomObject:task];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)saveCustomObject:(Task *)task
+{
+    NSData *taskData = [NSKeyedArchiver archivedDataWithRootObject:task];
+    [[NSUserDefaults standardUserDefaults] setObject:taskData forKey:@"tasks"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    printf("saved!!!!!!!\n");
+}
 @end
