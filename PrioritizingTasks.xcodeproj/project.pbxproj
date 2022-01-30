@@ -25,6 +25,7 @@
 		A433111327A6CBF000A9A6F2 /* EditVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditVC.h; sourceTree = "<group>"; };
 		A433111427A6CBF000A9A6F2 /* EditVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditVC.m; sourceTree = "<group>"; };
 		A43910AD27A5D14300086AA4 /* myProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = myProtocol.h; sourceTree = "<group>"; };
+		A451C49E27A73D340095879E /* UpdatedDataProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UpdatedDataProtocol.h; sourceTree = "<group>"; };
 		A45763AB27A2CD3000A7D05E /* PrioritizingTasks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrioritizingTasks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A45763AE27A2CD3000A7D05E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A45763AF27A2CD3000A7D05E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -98,6 +99,7 @@
 				A433111127A6CA1E00A9A6F2 /* EditProtocol.h */,
 				A433111327A6CBF000A9A6F2 /* EditVC.h */,
 				A433111427A6CBF000A9A6F2 /* EditVC.m */,
+				A451C49E27A73D340095879E /* UpdatedDataProtocol.h */,
 			);
 			path = PrioritizingTasks;
 			sourceTree = "<group>";

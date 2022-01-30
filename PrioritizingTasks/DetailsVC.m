@@ -64,6 +64,8 @@
     //_taskPriorityTxt.text = [@"Priority: " stringByAppendingFormat:@"%@", priority];
     _taskPriorityTxt.text = task.taskPreirity;
     _taskdateTxt.text = task.taskdateOfCreation;
+    self.taskObj = task;
+    //[self.delegate setUpdatedDataInMainTableData: task];
 }
 
 @end

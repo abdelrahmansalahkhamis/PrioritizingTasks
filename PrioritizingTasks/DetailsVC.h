@@ -9,12 +9,14 @@
 #import "Task.h"
 #import "myProtocol.h"
 #import "EditProtocol.h"
+#import "UpdatedDataProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DetailsVC : UIViewController<EditProtocol>
 @property Task* taskObj;
-@property id<myProtocol> delegate;
+@property id<UpdatedDataProtocol> delegate;
+//@property id<myProtocol> delegate;
 @end
 
 NS_ASSUME_NONNULL_END

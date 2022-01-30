@@ -7,10 +7,11 @@
 
 #import <UIKit/UIKit.h>
 #import "myProtocol.h"
+#import "UpdatedDataProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ToDoListVC : UIViewController <UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDelegate, UITableViewDataSource, myProtocol>
+@interface ToDoListVC : UIViewController <UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating, UITableViewDelegate, UITableViewDataSource, myProtocol, UpdatedDataProtocol>
 
 @property UISearchController *searchController;
 @property NSMutableArray *tasks;

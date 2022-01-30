@@ -282,7 +282,7 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
 -(void) searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger) selectedScope {
 
     //filterArrayWithCharacterLength(selectedScope);
-//    printf("selectedScopeButtonIndexDidChange: %d\n",selectedScope);
+    printf("selectedScopeButtonIndexDidChange: %d\n",selectedScope);
 //    switch (selectedScope) {
 //        case 0:
 //            mainArr = names;
@@ -668,5 +668,16 @@ NSArray *filteredTitles = @[@"All", @"Name", @"Description", @"Prority", @"Progr
 //        [lowPriorityArr addObject:task];
 //    }
     [_tableView reloadData];
+}
+
+-(void) setNewDataInMainTableData: (Task*) task{
+    if (task.taskPreirity == @"High") {
+        [highPriorityArr addObject:task];
+    }else if (task.taskPreirity == @"Med"){
+        [medPriorityArr addObject:task];
+    }else if (task.taskPreirity == @"Low"){
+        [lowPriorityArr addObject:task];
+    }
+    [self.tableView reloadData];
 }
 @end
